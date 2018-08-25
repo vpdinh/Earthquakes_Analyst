@@ -70,7 +70,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
       //Find strongest earthquake and its info and lagitute,longitude as well
       if (largestearthquake <=mag) {
           largestearthquake =mag;
-          largestinfo="<h3>" + "The recent strongest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
+          largestinfo="<h3>" + "The recently strongest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
           laglon=[location[1], location[0]];     
       }
 
