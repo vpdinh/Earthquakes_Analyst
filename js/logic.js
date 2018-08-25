@@ -52,8 +52,11 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
     console.log(data)
    
     let locationmarkers = [];
+
+    //addtional part, find the strongest earthquare currently
     let largestearthquake=0;
     let largestinfo = "";
+    let laglon =[];
   
     for(let index = 0; index < data.length; index++){
         
@@ -64,13 +67,12 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
       let mag =  data[index].properties.mag;
       //Calculate by converting time to date occured earthquake
       var date = new Date(info.time);
-
+      //Find strongest earthquake and its info and lagitute,longitude as well
       if (largestearthquake <=mag) {
           largestearthquake =mag;
-          largestinfo="<h3>" + "Current strongest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>";
+          largestinfo="<h3>" + "Current strongest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
+          laglon=[location[1], location[0]];     
       }
-      
-
 
       //calculate Magnitude to display marker( in this case using circle marker to display on Map)
     L.circleMarker(new L.LatLng(location[1], location[0]), {
@@ -87,7 +89,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
     //locationmarkers.push(locationmarker);
      .addTo(earthquake);
     }
-
+// Insert into map
     var largestonmap = L.control({position: 'bottomleft'});
     var div = L.DomUtil.create('div', 'alert');
     largestonmap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${largestearthquake}">
@@ -95,6 +97,21 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
             return div;
   }
     largestonmap.addTo(myMap);
+
+    // Click on alert abt strongest earthquake on bottomleft to locate that earthquake on map, together with its popup
+    d3.select(".alert").on("click", function() { 
+      L.circleMarker(laglon, {
+        radius: largestearthquake*5,
+        color: "black",
+        fillColor: getcolor(largestearthquake)[0],
+        weight:0.8,
+        stroke: true,
+        opacity:0.9,
+        fillOpacity: 1
+    }).bindPopup(largestinfo,{closeOnClick:false})
+    .addTo(earthquake)
+    .openPopup(); 
+    });
     // myMap.addLayer(earthquake);
    
     //add to map
