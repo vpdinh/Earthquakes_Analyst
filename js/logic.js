@@ -33,7 +33,7 @@ var USCoords = [38, -97];
   //Create map and set tile layer default (Outdoors) to map
   var myMap = L.map("map-id", {
     center: USCoords,
-    zoom: 5,
+    zoom: 3,
     layers: [outdoors]
   });
 
