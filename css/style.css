@@ -30,4 +30,5 @@ box-shadow: 0 0 16px black;
 border-radius: 5px;
 padding: 7px 9px;
 color: rgb(235, 27, 0);
+cursor:pointer;
 }
