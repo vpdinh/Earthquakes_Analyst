@@ -52,6 +52,9 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
     console.log(data)
    
     let locationmarkers = [];
+    let largestearthquake=0;
+    let largestinfo = "";
+  
     for(let index = 0; index < data.length; index++){
         
     //console.log(data[index].geometry.coordinates);
@@ -59,9 +62,15 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
       let location = data[index].geometry.coordinates;
       let info = data[index].properties;
       let mag =  data[index].properties.mag;
-
-     //Calculate by converting time to date occured earthquake
+      //Calculate by converting time to date occured earthquake
       var date = new Date(info.time);
+
+      if (largestearthquake <=mag) {
+          largestearthquake =mag;
+          largestinfo="<h3>" + "Current strongest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>";
+      }
+      
+
 
       //calculate Magnitude to display marker( in this case using circle marker to display on Map)
     L.circleMarker(new L.LatLng(location[1], location[0]), {
@@ -74,10 +83,18 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
         fillOpacity: 1
     })
     //add to overlay - earthquake Layer
-       .bindPopup("<h3>" + "Information: &nbsp" + date.toString() + " &nbsp - &nbsp" + info.title + "<br>" + "Possible Tsunamis:" + info.tsunami + "</h3>")
+       .bindPopup("<h3>" + "Information: &nbsp" + date.toString().slice(0,34) + " &nbsp - &nbsp" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>")
     //locationmarkers.push(locationmarker);
      .addTo(earthquake);
     }
+
+    var largestonmap = L.control({position: 'bottomleft'});
+    var div = L.DomUtil.create('div', 'alert');
+    largestonmap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${largestearthquake}">
+            </i>${largestinfo} <br>`;
+            return div;
+  }
+    largestonmap.addTo(myMap);
     // myMap.addLayer(earthquake);
    
     //add to map
