@@ -56,7 +56,15 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
     //addtional part, find the strongest earthquare currently
     let largestearthquake=0;
     let largestinfo = "";
+    let largestinfolocated = "";
     let laglon =[];
+    let latestinfo1="";
+    let latest1mag=0;
+    let latestinfo2="";
+    let latest2mag=0;
+    let latestinfo3="";
+    let latestinfo4="";
+    let latestinfo5="";
   
     for(let index = 0; index < data.length; index++){
         
@@ -70,10 +78,25 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
       //Find strongest earthquake and its info and lagitute,longitude as well
       if (largestearthquake <=mag) {
           largestearthquake =mag;
-          largestinfo="<h3>" + "The strongest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
+          largestinfo="<h3>" + "The strongest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "    "+"Click to locate"+"</h3>" +"<p style=color:black>" ;
+          largestinfolocated="<h3>" + "The strongest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>";
           laglon=[location[1], location[0]];     
       }
-
+     if (index ==0){
+       latest1mag=data[0].properties.mag;
+       latestinfo1="<h3>" + "The latest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
+       laglon1=[location[1], location[0]];      
+      }
+     if (index ==1){
+      latest2mag=data[1].properties.mag;
+      latestinfo2="<h3>" + "The latest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
+      laglon2=[location[1], location[0]]; 
+    }
+    if (index ==2){
+      latest3mag=data[2].properties.mag;
+      latestinfo3="<h3>" + "The latest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
+      laglon3=[location[1], location[0]];    
+    }     
       //calculate Magnitude to display marker( in this case using circle marker to display on Map)
     L.circleMarker(new L.LatLng(location[1], location[0]), {
         radius: mag*5,
@@ -89,7 +112,77 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
     //locationmarkers.push(locationmarker);
      .addTo(earthquake);
     }
-// Insert into map
+//insert latest earthquakes into map
+//first
+var lastestomap = L.control({position: 'bottomleft'});
+var div = L.DomUtil.create('div', 'alert');
+lastestomap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${latest1mag}">
+        </i>${latestinfo1} <br>`;
+        return div;
+}
+lastestomap.addTo(myMap);
+ // Click on alert abt latest earthquake on bottomleft to locate that earthquake on map, together with its popup
+ d3.select(".alert").on("click", function() { 
+  L.circleMarker(laglon1, {
+    radius: latest1mag*5,
+    color: "black",
+    fillColor: getcolor(latest1mag)[0],
+    weight:0.8,
+    stroke: true,
+    opacity:0.9,
+    fillOpacity: 1
+}).bindPopup(latestinfo1,{closeOnClick:false})
+.addTo(earthquake)
+.openPopup(); 
+});    
+//second
+var lastestomap = L.control({position: 'bottomleft'});
+var div = L.DomUtil.create('div', 'alert');
+lastestomap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${latest2mag}">
+        </i>${latestinfo2} <br>`;
+        return div;
+}
+lastestomap.addTo(myMap);
+ // Click on alert abt latest earthquake on bottomleft to locate that earthquake on map, together with its popup
+ d3.select(".alert").on("click", function() { 
+  L.circleMarker(laglon2, {
+    radius: latest2mag*5,
+    color: "black",
+    fillColor: getcolor(latest2mag)[0],
+    weight:0.8,
+    stroke: true,
+    opacity:0.9,
+    fillOpacity: 1
+}).bindPopup(latestinfo2,{closeOnClick:false})
+.addTo(earthquake)
+.openPopup(); 
+});    
+ 
+//third
+var lastestomap = L.control({position: 'bottomleft'});
+var div = L.DomUtil.create('div', 'alert');
+lastestomap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${latest3mag}">
+        </i>${latestinfo2} <br>`;
+        return div;
+}
+lastestomap.addTo(myMap); 
+ // Click on alert abt latest earthquake on bottomleft to locate that earthquake on map, together with its popup
+ d3.select(".alert").on("click", function() { 
+  L.circleMarker(laglon3, {
+    radius: latest3mag*5,
+    color: "black",
+    fillColor: getcolor(latest3mag)[0],
+    weight:0.8,
+    stroke: true,
+    opacity:0.9,
+    fillOpacity: 1
+}).bindPopup(latestinfo3,{closeOnClick:false})
+.addTo(earthquake)
+.openPopup(); 
+});    
+
+
+// Insert largest into map
     var largestonmap = L.control({position: 'bottomleft'});
     var div = L.DomUtil.create('div', 'alert');
     largestonmap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${largestearthquake}">
@@ -97,8 +190,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
             return div;
   }
     largestonmap.addTo(myMap);
-
-    // Click on alert abt strongest earthquake on bottomleft to locate that earthquake on map, together with its popup
+  // Click on alert abt strongest earthquake on bottomleft to locate that earthquake on map, together with its popup
     d3.select(".alert").on("click", function() { 
       L.circleMarker(laglon, {
         radius: largestearthquake*5,
@@ -108,7 +200,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
         stroke: true,
         opacity:0.9,
         fillOpacity: 1
-    }).bindPopup(largestinfo,{closeOnClick:false})
+    }).bindPopup(largestinfolocated,{closeOnClick:false})
     .addTo(earthquake)
     .openPopup(); 
     });
