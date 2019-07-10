@@ -89,12 +89,12 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
       }
      if (index ==1){
       latest2mag=data[1].properties.mag;
-      latestinfo2="<h3>" + "The latest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
+      latestinfo2="<h3>" + "The second earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
       laglon2=[location[1], location[0]]; 
     }
     if (index ==2){
       latest3mag=data[2].properties.mag;
-      latestinfo3="<h3>" + "The latest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
+      latestinfo3="<h3>" + "The third latest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
       laglon3=[location[1], location[0]];    
     }     
       //calculate Magnitude to display marker( in this case using circle marker to display on Map)
