@@ -319,6 +319,5 @@ var overlay = {
   "Earthquakes": earthquake,
   "Faults": faults
 };
-
  //add basemap and overlay map to L.control.layers
 L.control.layers(baseMaps, overlay).addTo(myMap); 
