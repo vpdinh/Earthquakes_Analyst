@@ -89,7 +89,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
       }
      if (index ==1){
       latest2mag=data[1].properties.mag;
-      latestinfo2="<h3>" + "The second earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
+      latestinfo2="<h3>" + "The second latest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>" +"<p style=color:black>" + "Click to locate";
       laglon2=[location[1], location[0]]; 
     }
     if (index ==2){
@@ -113,28 +113,30 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
      .addTo(earthquake);
     }
 //insert latest earthquakes into map
-//first
+
+//third
 var lastestomap = L.control({position: 'bottomleft'});
 var div = L.DomUtil.create('div', 'alert');
-lastestomap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${latest1mag}">
-        </i>${latestinfo1} <br>`;
+lastestomap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${latest3mag}">
+        </i>${latestinfo3} <br>`;
         return div;
 }
-lastestomap.addTo(myMap);
+lastestomap.addTo(myMap); 
  // Click on alert abt latest earthquake on bottomleft to locate that earthquake on map, together with its popup
  d3.select(".alert").on("click", function() { 
-  L.circleMarker(laglon1, {
-    radius: latest1mag*5,
+  L.circleMarker(laglon3, {
+    radius: latest3mag*5,
     color: "black",
-    fillColor: getcolor(latest1mag)[0],
+    fillColor: getcolor(latest3mag)[0],
     weight:0.8,
     stroke: true,
     opacity:0.9,
     fillOpacity: 1
-}).bindPopup(latestinfo1,{closeOnClick:false})
+}).bindPopup(latestinfo3,{closeOnClick:false})
 .addTo(earthquake)
 .openPopup(); 
 });    
+
 //second
 var lastestomap = L.control({position: 'bottomleft'});
 var div = L.DomUtil.create('div', 'alert');
@@ -157,26 +159,26 @@ lastestomap.addTo(myMap);
 .addTo(earthquake)
 .openPopup(); 
 });    
- 
-//third
+
+//first
 var lastestomap = L.control({position: 'bottomleft'});
 var div = L.DomUtil.create('div', 'alert');
-lastestomap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${latest3mag}">
-        </i>${latestinfo2} <br>`;
+lastestomap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${latest1mag}">
+        </i>${latestinfo1} <br>`;
         return div;
 }
-lastestomap.addTo(myMap); 
+lastestomap.addTo(myMap);
  // Click on alert abt latest earthquake on bottomleft to locate that earthquake on map, together with its popup
  d3.select(".alert").on("click", function() { 
-  L.circleMarker(laglon3, {
-    radius: latest3mag*5,
+  L.circleMarker(laglon1, {
+    radius: latest1mag*5,
     color: "black",
-    fillColor: getcolor(latest3mag)[0],
+    fillColor: getcolor(latest1mag)[0],
     weight:0.8,
     stroke: true,
     opacity:0.9,
     fillOpacity: 1
-}).bindPopup(latestinfo3,{closeOnClick:false})
+}).bindPopup(latestinfo1,{closeOnClick:false})
 .addTo(earthquake)
 .openPopup(); 
 });    
@@ -209,7 +211,6 @@ lastestomap.addTo(myMap);
     //add to map
   earthquake.addTo(myMap);
 });
-
     //Doing a funtion call getcolor which will use for earthquake and legend to generate the same color scales for each degree of magnitude
 function getcolor(mag){
 
