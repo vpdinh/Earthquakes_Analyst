@@ -113,7 +113,6 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
      .addTo(earthquake);
     }
 //insert latest earthquakes into map
-
 //third
 var lastestomap = L.control({position: 'bottomleft'});
 var div = L.DomUtil.create('div', 'alert');
