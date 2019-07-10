@@ -46,7 +46,7 @@ var USCoords = [38, -97];
  
 // Read Earthquake datas and fetching data according Coordinates of earthquake using manually way,CircleMarker not using Geojson
 
-d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson", function(response) {
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson", function(response) {
    
    let data = response.features;
     console.log(data)
@@ -63,6 +63,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
     let latestinfo2="";
     let latest2mag=0;
     let latestinfo3="";
+    let latest3mag=0;
     let latestinfo4="";
     let latestinfo5="";
   
@@ -113,6 +114,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojs
      .addTo(earthquake);
     }
 //insert latest earthquakes into map
+
 //third
 var lastestomap = L.control({position: 'bottomleft'});
 var div = L.DomUtil.create('div', 'alert');
@@ -210,6 +212,7 @@ lastestomap.addTo(myMap);
     //add to map
   earthquake.addTo(myMap);
 });
+
     //Doing a funtion call getcolor which will use for earthquake and legend to generate the same color scales for each degree of magnitude
 function getcolor(mag){
 
