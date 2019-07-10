@@ -70,6 +70,7 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
     let today = new Date(data[0].properties.time);
     let infotoday="";
     let infotodaymax=0;
+    let ca="";
   
     for(let index = 0; index < data.length; index++){
         
@@ -78,10 +79,11 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
       let location = data[index].geometry.coordinates;
       let info = data[index].properties;
       let mag =  data[index].properties.mag;
+      let ca= data[index].properties.place;
       //Calculate by converting time to date occured earthquake
       var date = new Date(info.time);
       //let today = new Date(data[0].properties.time);
-      if (today.toString().slice(0,16)==date.toString().slice(0,16)){
+      if (today.toString().slice(0,16)==date.toString().slice(0,16) & ca.split(" ").includes("CA")==true){
         countearthquake = countearthquake+1;
         if (mag>=infotodaymax)
         {
@@ -225,7 +227,7 @@ lastestomap.addTo(myMap);
     //add to map
   earthquake.addTo(myMap);
 //total equal today
-     infotoday = "<h3>" + "The total earthquakes of " +today.toString().slice(0,16)  + ": "+countearthquake  + "<br>" +"with largest magnitude : M " + infotodaymax + "</h3>" +"<p style=color:black>";
+     infotoday = "<h3>" + "The total earthquakes of Calif - " +today.toString().slice(0,16)  + ": "+countearthquake  + "<br>" +"with largest magnitude : M " + infotodaymax + "</h3>" +"<p style=color:black>";
 var largestonmap = L.control({position: 'bottomleft'});
     var div = L.DomUtil.create('div', 'command');
     largestonmap.onAdd = function () { div.innerHTML = div.innerHTML + `<i style="background:${largestearthquake}">
