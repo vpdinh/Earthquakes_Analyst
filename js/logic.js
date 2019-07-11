@@ -70,6 +70,8 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
     let today = new Date(data[0].properties.time);
     let infotoday="";
     let infotodaymax=0;
+    let infolocationmax=[];
+    let infomax="";
     let ca="";
   
     for(let index = 0; index < data.length; index++){
@@ -88,6 +90,8 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
         if (mag>=infotodaymax)
         {
           infotodaymax=mag;
+          infolocationmax = [location[1], location[0]];
+          infomax="<h3>" + "Today strongest earthquake: &nbsp" + date.toString().slice(0,34) + " <br>" + info.title + "<br>" + "Tsunamis:" + info.tsunami + "</h3>";
         }
       }
 
@@ -235,6 +239,20 @@ var largestonmap = L.control({position: 'bottomleft'});
             return div;
   }
     largestonmap.addTo(myMap);
+    // Click on alert abt today strongest earthquake on bottomleft to locate that earthquake on map, together with its popup
+    d3.select(".command").on("click", function() { 
+      L.circleMarker(infolocationmax, {
+        radius: infotodaymax*5,
+        color: "black",
+        fillColor: getcolor(infotodaymax)[0],
+        weight:0.8,
+        stroke: true,
+        opacity:0.9,
+        fillOpacity: 1
+    }).bindPopup(infomax,{closeOnClick:false})
+    .addTo(earthquake)
+    .openPopup(); 
+    });
 
 });
 
@@ -319,5 +337,6 @@ var overlay = {
   "Earthquakes": earthquake,
   "Faults": faults
 };
+
  //add basemap and overlay map to L.control.layers
 L.control.layers(baseMaps, overlay).addTo(myMap); 
